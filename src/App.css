@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+html {
+  background-color: #eceaef;
+}
+/* NEW */
+.navbar {
+  margin: 20px 5% 10px 5%;
+  display: flex;
+  place-content: space-between;
+}
+#select-filter {
+  
+}
+#filter-div {
+  display: flex;
+}
+.filter-option {
+  margin: auto 5% !important;
+  width: 90%;
+}
+#filter-gender {
+  margin: auto 5% !important;
+  width: 50%;
+}
+#filter-race {
+  margin: auto 5% !important;
+  width: 50%;
+}
+option {
+  font-family: 'Roboto';
+  margin: 5px;
+}
+option:hover {
+  background: #d1d5d5;
+  cursor: pointer;
+}
+.paginationUl {
+  margin: 20px auto;
+}
+.MuiPagination-ul {
+  place-content: center !important;
+}
+.buttonContainer { 
+  display: flex;
+  place-content: center;
+}
+.btn {
+  margin: 10px 5% 0 5%!important;
+  width: 40%;
+  font-size: 10px !important;
+  padding: 4px 6px !important;
+}
+.edit-btn-1{
+  float: left;
+}
+.edit-btn-2 {
+  float: right;
+}
+.filterTitle {
+  margin: 10px 5% 0 5% !important;
+}
+#filter-container {
+  margin: auto 5% !important;
+  width: 90%;
+}
+.grid-filter {
+  text-align: center;
+}
+#search-field {
+  width: 100% !important;
+}
+#character-filter {
+  margin-top: 10px !important;
+  float: right;
+}
+
+/* CHARACTERS */
+.offer-photo {
+  width: 100%;
+  height: 100%;
+}
+.character-detailsDiv {
+  min-height: 90px;
+}
+.character-name {
+  font-size: 1.3em !important;
+  font-weight: 800 !important;
+  margin: 0 5%  !important;
+  letter-spacing: 0px !important;
+  text-transform: uppercase !important;
+}
+.character-details {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  margin: 0 5% !important;
+  color: #777 !important;
+}
+
+/* OLD */
+.main-grid {
+  width: 90% !important;
+  margin: 20px 5%;
+}
+.character-card {
+  margin: 10px 5% !important;
+}
+.character-cardContent {
+  padding: 0 !important;
+}
+.character-cardActions {
+  display: flow-root !important;
+}
