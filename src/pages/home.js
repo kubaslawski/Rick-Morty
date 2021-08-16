@@ -1,29 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 //COMPONENTS
-import Character from '../components/character';
+import NewCharacter from '../components/table-character';
 //MUI
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Pagination from '@material-ui/lab/Pagination';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Select from '@material-ui/core/Select';
+//ICONS
+import search from "../icons/search.svg";
 //REDUX
 import { connect } from 'react-redux';
-import {setCharacters} from '../redux/actions/dataActions';
-import character from '../components/character';
+import {setCharacter, setCharacters, setCharactersByEpisode} from '../redux/actions/dataActions';
 
 
 export const Home = (props) => {
 
-    
-    const {setCharacters} = props;
+    const isMounted = useRef(false);
+    const {setCharacters, setCharacter, setCharactersByEpisode} = props;
     const {characters, pages, favouriteCharacters} = props.data;
+
 
     const [params, setParams] = useState({
         page: 1,
@@ -31,17 +23,40 @@ export const Home = (props) => {
     });
 
     const [filters, setFilters] = useState({
-        gender: "",
-        species: "",
-        status: "",
-        name: ""
+        name: "",
+        id: "",
+        episode: ""
     })
     
     useEffect(() => {
        setCharacters(params.page, filters);
-    }, [params.page, filters])
+    }, [params.page, filters.name])
 
-    const handlePagination = (event, value) => {
+    useEffect(() => {
+        if(isMounted.current){
+            if(filters.id){
+                setCharacter(filters);
+            } else {
+                setCharacters(params.page, filters);
+            }
+        } else {
+            isMounted.current = true;
+        }
+    }, [filters.id])
+
+    useEffect(() => {
+        if(isMounted.current){
+            if(filters.episode){
+                setCharactersByEpisode(filters.episode);
+            } else {
+                setCharacters(params.page, filters);
+            }
+        } else {
+            isMounted.current = true;
+        }
+    }, [filters.episode])
+
+    const handlePagination = value => {
         setParams({
             ...params,
             page: value
@@ -56,106 +71,49 @@ export const Home = (props) => {
     }
 
     const handleChange = event => {
+        let option = document.getElementById("search-select").value;
         setFilters({
-            ...filters,
-            [event.target.name]: event.target.value
+            ...filters, 
+            [option]: event.target.value
         })
     }
 
     return (
         <div data-testid="home-1">
-            <div className="navbar">
-                <Grid container id="navbar-container">
-                    <Grid item xs={12} sm={6} md={6}>
-                        <TextField
-                            id="search-field"
-                            name="name"
-                            label="Character name"
-                            variant="outlined"
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} className="grid-filter">
-                        <FormControl className="filter-option" id="character-filter">
-                            <InputLabel>Characters</InputLabel>
-                            <Select
-                            onChange={handleCharacters}
-                            defaultValue=""
-                            value={params.characters}
-                            name="characters"
-                            >
-                                <option value="All">All</option>
-                                <option value="Favourite">Favourites</option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>
+            <div className="search-container">
+                <div id="container-border">
+                    <div className="search-p">
+                        <p>Search By</p>
+                    </div>
+                        <select id="search-select">
+                            <option value="name">Name</option>
+                            <option value="id">Identifier</option>
+                            <option value="episode">Episode</option>
+                        </select>
+                    <div className="search-input">
+                    <input id="input-select" onChange={handleChange} />
+                    <img src={search} alt="search"/>
+                    </div>
+                </div>
             </div>
-            <Typography variant="h4" className="filterTitle">
-                OPTIONS:
-            </Typography>
-            <Grid container id="filter-container">
-                <Grid item xs={12} sm={6} md={4} className="grid-filter">
-                    <FormControl className="filter-option">
-                        <InputLabel>Gender</InputLabel>
-                        <Select
-                        onChange={handleChange}
-                        defaultValue=""
-                        value={filters.gender}
-                        name="gender"
-                        >
-                            <option value="">All</option>
-                            <option value="Unknown">Unknown</option>
-                            <option value="Female">Female</option>
-                            <option value="Male">Male</option>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} className="grid-filter">
-                    <FormControl className="filter-option">
-                        <InputLabel>Species</InputLabel>
-                        <Select
-                        onChange={handleChange}
-                        defaultValue=""
-                        value={filters.species}
-                        name="species"
-                        >
-                            <option value="">All</option>
-                            <option value="Human">Human</option>
-                            <option value="Alien">Alien</option>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} className="grid-filter">
-                    <FormControl className="filter-option">
-                        <InputLabel>Status</InputLabel>
-                        <Select
-                        onChange={handleChange}
-                        defaultValue=""
-                        value={filters.status}
-                        name="status"
-                        >
-                            <option value="">All</option>
-                            <option value="Alive">Alive</option>
-                            <option value="Dead">Dead</option>
-                        </Select>
-                    </FormControl>  
-                </Grid>          
-            </Grid>
-            {params.characters === "All" ? (
-                <>
-                <Grid container className="main-grid">
-                {characters.map((character, index) => {
-                    return (
-                        <Character key={index} character={character}/>
-                    )
-                    })}
-                </Grid>
-                <Pagination count={pages} page={params.page} variant="outlined" color="primary" className="paginationUl"onChange={handlePagination}/>
-                </>
-            ) : (
-                <Grid container className="main-grid">
-                    {favouriteCharacters.filter(character => {
+            <div id="character-change-div">
+                <button style={params.characters === "All" ? {color: '#11B0C8', borderBottom: '3px solid #11B0C8'} : {}} name="characters" value="All" onClick={handleCharacters}>All Characters</button>
+                <button style={params.characters === "Favourites" ? {color: '#11B0C8', borderBottom: '3px solid #11B0C8'} : {}} name="characters" value="Favourites" onClick={handleCharacters}>Favourites</button>
+            </div>
+            <table className="table-1">
+                <tbody>
+                <tr>
+                    <td>Photo</td>
+                    <td>Character ID</td>
+                    <td>Name</td>
+                    <td>Gender</td>
+                    <td>Species</td>
+                    <td>Last Episode</td>
+                    <td>Add To Favorites</td>
+                </tr>
+                {params.characters === "All" ? (
+                    <>
+                    {characters.filter(character => {
                         if(!filters.name) return true;
                         if(character.name.toLowerCase().includes(filters.name.toLowerCase())){
                             return true;
@@ -164,13 +122,34 @@ export const Home = (props) => {
                     })
                     .map((character, index) => {
                         return (
-                            <Character key={index} character={character}/>
+                            <NewCharacter key={index} character={character}/>
                         )
                     })}
-                </Grid>
+                </>
+                ) : (
+                    <>
+                        {favouriteCharacters.filter(character => {
+                            if(!filters.name) return true;
+                            if(character.name.toLowerCase().includes(filters.name.toLowerCase())){
+                                return true;
+                            }
+                            return false;
+                        })
+                        .sort((a, b) => a.id - b.id)
+                        .map((character, index) => {
+                            return (
+                                <NewCharacter key={index} character={character}/>
+                            )
+                        })}
+                    </>
+                )}
+            </tbody>
+            </table>
+            {filters.name === "" && filters.episode === "" && filters.id === "" && params.characters === "All" ? (
+                        <Pagination color="primary" count={pages} page={params.page} variant="outlined" shape="rounded" className="paginationUl"onChange={handlePagination}/>
+                    ) : (
+                        null
             )}
-
-           
         </div>
     )
 }
@@ -180,7 +159,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    setCharacters
+    setCharacters,
+    setCharactersByEpisode,
+    setCharacter,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -1,4 +1,5 @@
 export const SET_CHARACTERS = 'SET_CHARACTERS';
+export const SET_CHARACTER = 'SET_CHARACTER';
 export const SET_COUNT = 'SET_COUNT';
 export const HANDLE_CHARACTER = 'HANDLE_CHARACTER';
 export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';

@@ -1,11 +1,10 @@
 /* eslint-disable import/no-anonymous-default-export */
 import {
-    SET_CHARACTERS, SET_COUNT, ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE
+    SET_CHARACTERS, SET_CHARACTER, SET_COUNT, ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE
 } from '../types';
 
 const initialState = {
     characters: [],
-    offers: [],
     favouriteCharacters: [],
     pages: 0
 };
@@ -17,6 +16,11 @@ export default function(state=initialState, action){
             return {
                 ...state,
                 characters: action.payload
+            }
+        case SET_CHARACTER:
+            return {
+                ...state,
+                characters: [action.payload] 
             }
         case SET_COUNT:
             return {

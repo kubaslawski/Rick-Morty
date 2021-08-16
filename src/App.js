@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import { ThemeProvider } from '@material-ui/styles';
+import customTheme from './theme';
 //PAGES
 import Home from './pages/home';
 //REDUX
@@ -12,9 +14,13 @@ const App = () => {
   
 
   return (
+    <ThemeProvider theme={customTheme}>
+
     <Provider store={store}>
       <Home/>
     </Provider>
+          
+    </ThemeProvider>
 
   );
 }
