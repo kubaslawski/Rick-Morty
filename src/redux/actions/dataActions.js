@@ -57,7 +57,7 @@ export const setCharacters = (page, filter) => dispatch => {
 }
 
 export const setCharacter = (filter) => dispatch => {
-    if(filter.id != ""){
+    if(filter.id !== ""){
         fetch(`https://rickandmortyapi.com/graphql/`, {
             method: 'POST',
             headers: {
@@ -95,7 +95,7 @@ export const setCharacter = (filter) => dispatch => {
 }
 
 export const setCharactersByEpisode = episode => dispatch => {
-    if(episode != ""){
+    if(episode !== ""){
         fetch(`https://rickandmortyapi.com/graphql/`, {
             method: 'POST',
             headers: {

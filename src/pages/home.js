@@ -135,6 +135,22 @@ export const Home = (props) => {
                             }
                             return false;
                         })
+                        .filter(character => {
+                            if(!filters.id) return true;
+                            if(character.id === filters.id){
+                                return true;
+                            }
+                            return false;
+                        })
+                        .filter(character => {
+                            if(!filters.episode) return true;
+                            for(var i=0; i<character.episode.length; i++){
+                                if(character.episode[i].id === filters.episode){
+                                    return true;
+                                }
+                            }
+                            return false;
+                        })
                         .sort((a, b) => a.id - b.id)
                         .map((character, index) => {
                             return (

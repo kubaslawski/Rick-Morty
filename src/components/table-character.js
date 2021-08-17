@@ -1,7 +1,7 @@
 import React from 'react';
 //ICONS
 import blueStar from "../icons/star.svg";
-import fullStar from "../icons/full_star.svg";
+import whiteStar from "../icons/white_star.svg";
 import female from "../icons/female.svg";
 import male from "../icons/male.svg";
 import close from "../icons/close.svg";
@@ -14,6 +14,7 @@ const NewCharacter = props => {
 
     const {character, addCharacter, removeCharacter} = props;
     const {favouriteCharacters} = props.data;
+
 
     const addFavourite = () => {
         addCharacter(character);
@@ -64,9 +65,9 @@ const NewCharacter = props => {
             <td>
                 <div className="star-image">
                 {favouriteCharacters.includes(character)  ? (
-                    <img src={blueStar} alt="star" onClick={removeFavourite} />
+                    <img src={blueStar} alt="star"  onClick={removeFavourite} />
                 ) : (
-                    <img src={fullStar} alt="star" onClick={addFavourite} />
+                    <img src={whiteStar} alt="star" style={{background: "#11B0C8"}} onClick={addFavourite} />
                 )}
                 </div>
                 
