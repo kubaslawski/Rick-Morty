@@ -56,9 +56,17 @@ export const Home = (props) => {
         }
     }, [filters.episode])
 
-    const handlePagination = value => {
+    // const handlePagination = event => {
+    //     console.log(event.target)
+    //     setParams({
+    //         ...params,
+    //         page: parseInt(event.target.innerText)
+    //     });
+    // }
+
+    const handlePagination = (event, value) => {
         setParams({
-            ...params,
+            ...params, 
             page: value
         });
     }
@@ -88,7 +96,7 @@ export const Home = (props) => {
                         <select id="search-select">
                             <option value="name">Name</option>
                             <option value="id">Identifier</option>
-                            <option value="episode">Episode</option>
+                            <option value="episode">Episode ID</option>
                         </select>
                     <div className="search-input">
                     <input id="input-select" onChange={handleChange} />
@@ -152,9 +160,9 @@ export const Home = (props) => {
                             return false;
                         })
                         .sort((a, b) => a.id - b.id)
-                        .map((character, index) => {
+                        .map((character) => {
                             return (
-                                <NewCharacter key={index} character={character}/>
+                                <NewCharacter key={character.id} character={character}/>
                             )
                         })}
                     </>
@@ -162,7 +170,7 @@ export const Home = (props) => {
             </tbody>
             </table>
             {filters.name === "" && filters.episode === "" && filters.id === "" && params.characters === "All" ? (
-                        <Pagination color="primary" count={pages} page={params.page} variant="outlined" shape="rounded" className="paginationUl"onChange={handlePagination}/>
+                        <Pagination color="primary" count={pages} page={params.page} variant="outlined" shape="rounded" className="paginationUl" onChange={handlePagination}/>
                     ) : (
                         null
             )}

@@ -12,6 +12,7 @@ import {addCharacter, removeCharacter} from '../redux/actions/dataActions';
 
 const NewCharacter = props => {
 
+
     const {character, addCharacter, removeCharacter} = props;
     const {favouriteCharacters} = props.data;
 
